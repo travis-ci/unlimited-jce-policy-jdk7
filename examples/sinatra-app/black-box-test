@@ -1,0 +1,24 @@
+#!/bin/bash
+set -e
+
+cd $(dirname ${BASH_SOURCE[0]})
+
+export BUNDLE_GEMFILE="$PWD/Gemfile"
+
+set -x
+export PORT="103$(echo $RANDOM | cut -b1-2)"
+
+bundle install
+bundle exec ruby app.rb > app.log 2>&1 &
+
+sleep ${SLEEPYTIME:-10}
+
+set +x
+for n in $(seq 10) ; do
+  set -x
+  curl -s localhost:$PORT/
+  set +x
+  sleep 0.1
+done
+
+curl -s -X DELETE localhost:$PORT/

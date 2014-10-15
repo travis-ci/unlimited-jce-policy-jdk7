@@ -1,3 +1,3 @@
 task :default do
-  puts 'wat'
+  sh 'examples/sinatra-app/black-box-test'
 end

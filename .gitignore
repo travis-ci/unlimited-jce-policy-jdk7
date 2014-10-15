@@ -11,4 +11,6 @@
 *.so
 *.o
 *.a
-mkmf.log
+*.log
+
+examples/sinatra-app/.jdk-overlay
