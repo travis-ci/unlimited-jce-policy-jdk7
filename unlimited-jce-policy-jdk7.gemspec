@@ -1,11 +1,8 @@
 # vim:fileencoding=utf-8
-lib = File.expand_path('../lib', __FILE__)
-$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'unlimited/jce/policy/jdk7/version'
 
 Gem::Specification.new do |spec|
   spec.name        = 'unlimited-jce-policy-jdk7'
-  spec.version     = Unlimited::Jce::Policy::Jdk7::VERSION
+  spec.version     = '0.1.0'
   spec.authors     = ['Dan Buch']
   spec.email       = ['dan@travis-ci.com']
   spec.summary     = "It's JCE Unlimited Strength Jurisdiction Policy Files 7 in a gem!"

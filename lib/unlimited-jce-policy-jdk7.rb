@@ -1,2 +1,2 @@
-require_relative 'unlimited/jce/policy/jdk7'
-Unlimited::Jce::Policy::Jdk7.init if RUBY_PLATFORM == 'java'
+require_relative 'unlimited_jce_policy_jdk7'
+UnlimitedJcePolicyJdk7.init if RUBY_PLATFORM == 'java'
