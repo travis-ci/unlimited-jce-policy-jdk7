@@ -8,7 +8,7 @@ Gem::Specification.new do |spec|
   spec.version     = Unlimited::Jce::Policy::Jdk7::VERSION
   spec.authors     = ['Dan Buch']
   spec.email       = ['dan@travis-ci.com']
-  spec.summary     = %q{It's JCE Unlimited Strength Jurisdiction Policy Files 7 in a gem!}
+  spec.summary     = "It's JCE Unlimited Strength Jurisdiction Policy Files 7 in a gem!"
   spec.description = spec.summary
   spec.license     = 'All Rights Reserved'
 
