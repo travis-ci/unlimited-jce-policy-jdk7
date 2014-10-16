@@ -1,30 +1,32 @@
 describe UnlimitedJcePolicyJdk7::Initializer do
-  before :each do
-    skip('jruby only') unless RUBY_PLATFORM == 'java'
-    require 'java'
-    allow(java.lang.System).to receive(:properties)
-      .and_return('java.home' => java_home)
-    allow(subject).to receive(:app_root).and_return(app_root)
-    FileUtils.mkdir_p(File.join(java_home, 'lib/security'))
-  end
+  context 'with only a few things stubbed out' do
+    before :each do
+      skip('jruby only') unless RUBY_PLATFORM == 'java'
+      require 'java'
+      allow(java.lang.System).to receive(:properties)
+        .and_return('java.home' => java_home)
+      allow(subject).to receive(:app_root).and_return(app_root)
+      FileUtils.mkdir_p(File.join(java_home, 'lib/security'))
+    end
 
-  let(:java_home) { File.join(tmpdir, 'java_home') }
-  let(:app_root) { File.join(tmpdir, 'app_root') }
-  let(:tmpdir) { Dir.mktmpdir }
+    let(:java_home) { File.join(tmpdir, 'java_home') }
+    let(:app_root) { File.join(tmpdir, 'app_root') }
+    let(:tmpdir) { Dir.mktmpdir }
 
-  after do
-    FileUtils.rm_rf(tmpdir)
-  end
+    after do
+      FileUtils.rm_rf(tmpdir)
+    end
 
-  it 'initializes the whole shebang' do
-    subject.init
-    [
-      subject.send(:security_path),
-      subject.send(:system_security_path)
-    ].each do |basedir|
-      expect(File.directory?(basedir)).to eq(true)
-      %w(local_policy.jar US_export_policy.jar).each do |jar|
-        expect(File.exist?(File.join(basedir, jar))).to eq(true)
+    it 'initializes the whole shebang' do
+      subject.init
+      [
+        subject.send(:security_path),
+        subject.send(:system_security_path)
+      ].each do |basedir|
+        expect(File.directory?(basedir)).to eq(true)
+        %w(local_policy.jar US_export_policy.jar).each do |jar|
+          expect(File.exist?(File.join(basedir, jar))).to eq(true)
+        end
       end
     end
   end
