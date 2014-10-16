@@ -9,5 +9,5 @@ which cannot be legally redistributed.
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'unlimited-jce-policy-jdk7', github: 'travis-pro/unlimited-jce-policy-jdk7'
+gem 'unlimited-jce-policy-jdk7', github: 'travis-ci/unlimited-jce-policy-jdk7'
 ```
