@@ -5,22 +5,24 @@ module UnlimitedJcePolicyJdk7
     Initializer.new.init(system_install)
   end
 
-  private
-
   class Initializer
     def init(system_install = true)
-      FileUtils.mkdir_p(security_path)
-      FileUtils.mkdir_p(system_security_path) if system_install
+      mkdir_p(security_path)
+      mkdir_p(system_security_path) if system_install
 
       jars.each do |jar|
         dest = File.join(security_path, File.basename(jar))
-        FileUtils.cp(jar, dest)
+        cp(jar, dest)
 
         system_dest = File.join(system_security_path, File.basename(jar))
 
-        FileUtils.cp(jar, system_dest) if system_install
+        cp(jar, system_dest) if system_install
       end
     end
+
+    private
+
+    include FileUtils
 
     def jars
       Dir.glob(File.expand_path('../jars/*.jar', __FILE__))

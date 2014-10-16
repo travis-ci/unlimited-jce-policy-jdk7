@@ -1,6 +1,8 @@
 language: ruby
 sudo: false
-rvm: jruby-1.7.16
+rvm:
+- jruby-1.7.16
+- 2.1.3
 jdk: openjdk7
 before_script: travis_retry gem install sinatra
 after_script: cat example/sinatra-app/app.log
