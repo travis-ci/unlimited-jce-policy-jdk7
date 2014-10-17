@@ -47,9 +47,7 @@ module UnlimitedJcePolicyJdk7
     end
 
     def app_root
-      return Sinatra::Application.settings.root if defined?(Sinatra)
-      return Rails.root if defined?(Rails)
-      return ENV['RAILS_ROOT'] if ENV.key?('RAILS_ROOT')
+      return '/app' if ENV.key?('DYNO')
       Dir.pwd
     end
   end
