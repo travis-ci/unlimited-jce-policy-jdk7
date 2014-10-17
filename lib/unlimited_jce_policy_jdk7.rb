@@ -33,7 +33,7 @@ module UnlimitedJcePolicyJdk7
     end
 
     def system_security_path
-      return File.expand_path('~/.jdk/jre/lib/security') if ENV.key?('DYNO')
+      return File.expand_path('~/.jdk/jre/lib/security') if heroku?
 
       @system_security_path ||= begin
         java_home = java.lang.System.properties['java.home']
@@ -47,10 +47,12 @@ module UnlimitedJcePolicyJdk7
     end
 
     def app_root
-      return Sinatra::Application.settings.root if defined?(Sinatra)
-      return Rails.root if defined?(Rails)
-      return ENV['RAILS_ROOT'] if ENV.key?('RAILS_ROOT')
+      return ENV['HOME'] if heroku?
       Dir.pwd
+    end
+
+    def heroku?
+      ENV.key?('DYNO')
     end
   end
 end
