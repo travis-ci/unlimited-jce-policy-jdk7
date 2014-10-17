@@ -47,7 +47,7 @@ module UnlimitedJcePolicyJdk7
     end
 
     def app_root
-      return '/app' if ENV.key?('DYNO')
+      return ENV['HOME'] if ENV.key?('DYNO')
       Dir.pwd
     end
   end
