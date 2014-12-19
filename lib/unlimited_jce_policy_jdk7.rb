@@ -1,12 +1,23 @@
 require 'fileutils'
 
 module UnlimitedJcePolicyJdk7
-  def self.init(system_install = true)
-    Initializer.new.init(system_install)
+  def self.init(system_install = true, debug = false)
+    Initializer.new.init(system_install, debug)
   end
 
   class Initializer
-    def init(system_install = true)
+    EFFECTIVELY_UNLIMITED_LENGTH = 2_147_483_647
+
+    def init(system_install = true, debug = false)
+      return if key_size_already_unlimited?(debug)
+      install!(system_install)
+    end
+
+    private
+
+    include FileUtils
+
+    def install!(system_install = true)
       mkdir_p(security_path)
       mkdir_p(system_security_path) if system_install
 
@@ -19,10 +30,6 @@ module UnlimitedJcePolicyJdk7
         cp(jar, system_dest) if system_install
       end
     end
-
-    private
-
-    include FileUtils
 
     def jars
       Dir.glob(File.expand_path('../jars/*.jar', __FILE__))
@@ -49,6 +56,16 @@ module UnlimitedJcePolicyJdk7
     def app_root
       return ENV['HOME'] if heroku?
       Dir.pwd
+    end
+
+    def key_size_already_unlimited?(debug = false)
+      %w(AES DES RC2 RSA).all? do |cipher|
+        Java::JavaxCrypto::Cipher.get_max_allowed_key_length(cipher) >=
+          EFFECTIVELY_UNLIMITED_LENGTH
+      end
+    rescue => e
+      warn e if debug
+      false
     end
 
     def heroku?
