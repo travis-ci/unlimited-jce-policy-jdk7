@@ -59,8 +59,6 @@ module UnlimitedJcePolicyJdk7
     end
 
     def key_size_already_unlimited?(debug = false)
-      require 'java'
-
       %w(AES DES RC2 RSA).all? do |cipher|
         Java::JavaxCrypto::Cipher.get_max_allowed_key_length(cipher) >=
           EFFECTIVELY_UNLIMITED_LENGTH
