@@ -3,6 +3,7 @@ describe UnlimitedJcePolicyJdk7::Initializer do
     before :each do
       skip('jruby only') unless RUBY_PLATFORM == 'java'
       require 'java'
+      allow(subject).to receive(:key_size_already_unlimited?).and_return(false)
       allow(java.lang.System).to receive(:properties)
         .and_return('java.home' => java_home)
       allow(subject).to receive(:app_root).and_return(app_root)
@@ -42,6 +43,7 @@ describe UnlimitedJcePolicyJdk7::Initializer do
       allow(subject).to receive(:system_security_path)
         .and_return(system_security_path)
       allow(subject).to receive(:jars).and_return(jars)
+      allow(subject).to receive(:key_size_already_unlimited?).and_return(false)
     end
 
     let(:security_path) { 'lib/security/omg' }
@@ -72,6 +74,19 @@ describe UnlimitedJcePolicyJdk7::Initializer do
         expect(subject).to_not receive(:mkdir_p)
           .with(subject.send(:system_security_path))
         subject.init(false)
+      end
+    end
+
+    context 'when key length is already unlimited' do
+      before do
+        allow(subject).to receive(:key_size_already_unlimited?).and_return(true)
+      end
+
+      it 'short circuits' do
+        expect(subject).to_not receive(:mkdir_p)
+        expect(subject).to_not receive(:security_path)
+        expect(subject).to_not receive(:system_security_path)
+        expect(subject).to_not receive(:cp)
       end
     end
   end
