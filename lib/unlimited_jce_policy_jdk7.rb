@@ -10,7 +10,14 @@ module UnlimitedJcePolicyJdk7
 
     def init(system_install = true, debug = false)
       return if key_size_already_unlimited?(debug)
+      install!(system_install)
+    end
 
+    private
+
+    include FileUtils
+
+    def install!(system_install = true)
       mkdir_p(security_path)
       mkdir_p(system_security_path) if system_install
 
@@ -23,10 +30,6 @@ module UnlimitedJcePolicyJdk7
         cp(jar, system_dest) if system_install
       end
     end
-
-    private
-
-    include FileUtils
 
     def jars
       Dir.glob(File.expand_path('../jars/*.jar', __FILE__))

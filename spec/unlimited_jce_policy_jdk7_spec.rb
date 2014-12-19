@@ -83,10 +83,7 @@ describe UnlimitedJcePolicyJdk7::Initializer do
       end
 
       it 'short circuits' do
-        expect(subject).to_not receive(:mkdir_p)
-        expect(subject).to_not receive(:security_path)
-        expect(subject).to_not receive(:system_security_path)
-        expect(subject).to_not receive(:cp)
+        expect(subject).to_not receive(:install!)
       end
     end
   end
