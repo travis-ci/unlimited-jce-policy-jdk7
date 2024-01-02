@@ -6,3 +6,5 @@ rvm:
 jdk: openjdk7
 before_script: travis_retry gem install sinatra
 after_script: cat examples/sinatra-app/app.log || true
+before_install:
+  - gem install rubygems-update -v 3.4.22
